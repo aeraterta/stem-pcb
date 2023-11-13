@@ -66,6 +66,7 @@ void setup() {
 void loop() {
   t.update();
   //error=Sim800l.sendSms(number,text);
+  //print(error);
 }
 
 void getWaterLevel() {
@@ -83,9 +84,38 @@ void getWaterLevel() {
 
   // Calculate the distance:
   distance = duration*0.034/2;
-
-   // Print the distance on the Serial Monitor (Ctrl+Shift+M):
   Serial.print("Distance = ");
   Serial.print(distance);
   Serial.println(" cm");
+
+  if (distance >= 0 && distance <= 20) {
+        digitalWrite(led1, HIGH);
+        digitalWrite(led2, LOW);
+        digitalWrite(led3, LOW);
+        digitalWrite(led4, LOW);
+    } else if (distance >= 21 && distance <= 40) {
+        digitalWrite(led1, LOW);
+        digitalWrite(led2, HIGH);
+        digitalWrite(led3, LOW);
+        digitalWrite(led4, LOW);
+    } else if (distance >= 41 && distance <= 60) {
+        digitalWrite(led1, LOW);
+        digitalWrite(led2, LOW);
+        digitalWrite(led3, HIGH);
+        digitalWrite(led4, LOW);
+    } else if (distance > 60) {
+        digitalWrite(led1, LOW);
+        digitalWrite(led2, LOW);
+        digitalWrite(led3, LOW);
+        digitalWrite(led4, HIGH);
+        text = "Distance is greater than 120";
+        //error=Sim800l.sendSms(number,text);
+        //print(error);
+    } else {
+        Serial.println("Invalid distance\n");
+        digitalWrite(led1, LOW);
+        digitalWrite(led2, LOW);
+        digitalWrite(led3, LOW);
+        digitalWrite(led4, LOW);
+    }
 }
